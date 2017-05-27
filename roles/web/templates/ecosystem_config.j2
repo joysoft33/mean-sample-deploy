@@ -1,0 +1,11 @@
+
+module.exports = {
+  apps: [{
+    name: 'APP',
+    script: '{{ app_path }}/{{ server_file }}',
+    env: {
+      NODE_ENV: 'production',
+      PORT: '{{ node_port }}'
+    }
+  }]
+}

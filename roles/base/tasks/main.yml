@@ -16,16 +16,6 @@
     - ntp
     - htop
     - git
-    - nodejs
+    - nodejs-legacy
     - npm 
   tags: packages
-
-# - name: Install packages via npm
-#   npm: name={{ item }} global=yes
-#   with_items:
-#     - pm2
-#     - yo
-#     - bower
-#     - grunt-cli
-#     - gulp
-#   tags: packages

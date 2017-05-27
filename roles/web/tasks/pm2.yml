@@ -1,11 +1,17 @@
 ---
+
 - name: PM2 | Install PM2
-  sudo: yes
   npm: name=pm2 global=yes
+  become: yes
   tags: pm2
 
-- name: start application with pm2
-  command: pm2 start {{ app_path }}/{{ server_file}}
+- name: PM2 | Create configuration file
+  template: src=ecosystem_config.j2 dest={{ app_path }}/{{ pm2_file }}
+  become: yes
+  tags: pm2
+
+- name: PM2 | Start application
+  command: pm2 start {{ app_path }}/{{ pm2_file }}
   ignore_errors: yes
   become: yes
   tags: pm2

@@ -8,5 +8,12 @@
         state=directory
 
 - name: Create a symlink for legacy node issue
-  command: ln -s /usr/bin/nodejs /usr/bin/node  
-  ignore_errors: yes
+  file: src=/usr/bin/nodejs
+        dest=/usr/bin/node
+        state=link
+
+- name: Create log directory
+  file: path={{ application_log_dir }}
+        owner={{ nodeapp_user }}
+        group={{ nodeapp_group }}
+        state=directory

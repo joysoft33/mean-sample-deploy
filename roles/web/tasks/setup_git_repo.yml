@@ -1,6 +1,13 @@
 ---
 
-- name: Setup the Git repo
+- name: Git | Setup the repo
   git: repo={{ git_repo }} dest={{ app_path }} accept_hostkey=yes
   when: setup_git_repo
+  register: git_finished
+  tags: git
+
+- name: Git | Build the server
+  npm: path={{ app_path }}
+  register: npm_finished
+  when: git_finished.changed
   tags: git

@@ -1,5 +1,6 @@
 ---
+
 - name: Express | Install Express
-  sudo: yes
   npm: name=express global=yes
+  become: yes
   tags: express

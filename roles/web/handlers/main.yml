@@ -2,11 +2,11 @@
 
 - name: stop application
   command: pm2 delete all
-  become: yes
   ignore_errors: yes
+  become: yes
       
 - name: start application
-  command: pm2 start {{ app_path }}/{{ server_file}}
+  command: pm2 start {{ app_path }}/{{ pm2_file }}
   ignore_errors: yes
   become: yes
 

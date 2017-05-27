@@ -1,20 +1,38 @@
 ---
-- name: MongoDB | Fetch GPG key
-  sudo: yes
-  command: apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 7F0CEB10
-  tags: mongodb
+# https://docs.mongodb.com/manual/tutorial/install-mongodb-on-ubuntu/
+- block:
+  - name: MongoDB | Import public GPG Key
+    apt_key:
+        keyserver: keyserver.ubuntu.com
+        id: 0C49F3730359A14518585931BC711F9BA15703C6
+    tags: mongodb
 
-- name: MongoDB | Add 10 gen repository
-  sudo: yes
-  shell:
-    echo 'deb http://downloads-distro.mongodb.org/repo/ubuntu-upstart dist 10gen' | sudo tee /etc/apt/sources.list.d/10gen.list creates=/etc/apt/sources.list.d/10gen.list
+  - name: MongoDB | Add repository into sources list
+    apt_repository:
+        repo: deb http://repo.mongodb.org/apt/ubuntu {{ansible_distribution_release}}/mongodb-org/3.4 multiverse
+        state: present
+    tags: mongodb
 
-- name: MongoDB | Install latest mongodb
-  sudo: yes
-  apt: pkg=mongodb-10gen update-cache=yes
-  tags: mongodb
+  - name: MongoDB | Install package
+    apt:
+        name: mongodb-org
+        update_cache: yes
+    tags: mongodb
 
-- name: MongoDB | Run mongo daemon
-  sudo: yes
-  service: name=mongodb state=started
-  tags: mongodb
+  - name: MongoDB | Create dbpath directory
+    file:
+      path: "/data/db"
+      state: directory
+    
+  - name: MongoDB | Enable service at boot time
+    systemd:
+      name: mongod
+      state: restarted
+      enabled: yes
+    tags: mongodb
+
+  # - name: MongoDB | Run service now
+  #   service: name=mongod state=started
+  #   tags: mongodb
+
+  become: yes
