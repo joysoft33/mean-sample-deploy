@@ -1,4 +1,4 @@
-upstream {{ nginx_hostname }} {
+upstream {{ node_hostname }} {
   server localhost:{{ node_port }};
   keepalive 8;
 }
@@ -30,6 +30,6 @@ server {
     proxy_max_temp_file_size 0;
     proxy_redirect off;
     proxy_read_timeout 240s;
-    proxy_pass http://{{ nginx_hostname }};
+    proxy_pass http://{{ node_hostname }};
   }
 }

@@ -1,14 +1,14 @@
 ---
 
 - name: Deploy {{ application_name }} node.js application
-  hosts: production
+  hosts: local
   become: yes
   become_user: root
   vars:
     - setup_git_repo: yes
     - update_apt_cache: yes
   vars_files:
-    - env_vars/production
+    - env_vars/local
 
   roles:
     - base

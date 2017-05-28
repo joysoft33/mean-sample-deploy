@@ -1,34 +1,32 @@
 ---
 
-# Node settings.
+# System settings
+sys_release: xenial
+sys_user: ubuntu
+
+# Application settings
+nodeapp_user: "appusr"
+nodeapp_group: "appgrp"
+project_name: "mean-sample"
+application_name: "mean-app"
 node_port: 3000
+node_hostname: node_server 
 server_file: server.js
 pm2_file: ecosystem.config.js
 
+env_path: "/webapps/{{ project_name }}"
+app_path: "{{ env_path }}/{{ application_name }}"
+app_entry: "{{ app_path }}/{{ server_file }}"
+app_logdir: "{{ env_path }}/logs"
+
 # Nginx settings
-nginx_server_name: mean_todo
-nginx_hostname: mean_example 
+nginx_server_name: mean_sample
 nginx_http_port: 80
 nginx_https_port: 443
-nginx_access_log_file: "{{ application_log_dir }}/nginx_access.log"
-nginx_error_log_file: "{{ application_log_dir }}/nginx_error.log"
+nginx_access_log_file: "{{ app_logdir }}/nginx_access.log"
+nginx_error_log_file: "{{ app_logdir }}/nginx_error.log"
 nginx_static_dir: "{{ app_path }}/public/"
 nginx_media_dir: "{{ app_path }}/media/"
 
-# Git settings.
+# Git settings
 git_repo: https://github.com/scotch-io/node-todo.git
-
-# Application settings.
-nodeapp_user: "appusr"
-nodeapp_group: "appgrp"
-project_name: "meanproj"
-application_name: meanapp
-
-env_path: "/webapps/ansible/{{ project_name }}"
-app_path: "{{ env_path }}/{{ application_name }}"
-application_log_dir: "{{ env_path }}/logs"
-
-aws_access_key_id: na
-aws_secret_access_key: na
-
-ansible_distribution_release: xenial

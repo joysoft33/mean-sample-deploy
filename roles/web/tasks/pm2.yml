@@ -1,17 +1,30 @@
 ---
 
-- name: PM2 | Install PM2
+- name: PM2 | Install program
   npm: name=pm2 global=yes
   become: yes
-  tags: pm2
 
-- name: PM2 | Create configuration file
-  template: src=ecosystem_config.j2 dest={{ app_path }}/{{ pm2_file }}
-  become: yes
-  tags: pm2
-
-- name: PM2 | Start application
-  command: pm2 start {{ app_path }}/{{ pm2_file }}
+- name: PM2 | Stop started pm2 if needed
+  command: pm2 kill
   ignore_errors: yes
+
+- name: PM2 | Retrieve system configuration
+  command: pm2 startup systemd -u {{ sys_user }} --hp /home/{{ sys_user }}
   become: yes
-  tags: pm2
+  # shell: sudo env PATH=$PATH:/usr/bin /usr/local/lib/node_modules/pm2/bin/pm2 startup systemd -u {{ sys_user }} --hp /home/{{ sys_user }}
+
+# - name: PM2 | Create configuration file
+#   template: src=ecosystem_config.j2 dest={{ app_path }}/{{ pm2_file }}
+
+- name: PM2 | Start node application
+  command: pm2 start {{ app_entry }}
+  environment:
+    PORT: '{{ node_port }}'
+    NODE_ENV: 'production'
+  register: result
+  become_user: '{{ sys_user }}'
+
+- name: PM2 | Save configuration
+  command: pm2 save
+  when: result | succeeded
+  become_user: '{{ sys_user }}'

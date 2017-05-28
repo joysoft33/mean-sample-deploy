@@ -1,8 +1,8 @@
 
 module.exports = {
   apps: [{
-    name: 'APP',
-    script: '{{ app_path }}/{{ server_file }}',
+    name: '{{ application_name }}',
+    script: '{{ app_entry }}',
     env: {
       NODE_ENV: 'production',
       PORT: '{{ node_port }}'

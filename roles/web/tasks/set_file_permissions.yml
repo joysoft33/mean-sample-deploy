@@ -2,10 +2,10 @@
 
 - name: Ensure that the application file permissions are set properly
   file: path={{ env_path }}
-        recurse=yes
         owner={{ nodeapp_user }}
         group={{ nodeapp_group }}
         state=directory
+        recurse=yes
 
 - name: Create a symlink for legacy node issue
   file: src=/usr/bin/nodejs
@@ -13,7 +13,7 @@
         state=link
 
 - name: Create log directory
-  file: path={{ application_log_dir }}
+  file: path={{ app_logdir }}
         owner={{ nodeapp_user }}
         group={{ nodeapp_group }}
         state=directory

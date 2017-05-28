@@ -1,6 +1,0 @@
----
-
-- name: Express | Install Express
-  npm: name=express global=yes
-  become: yes
-  tags: express

@@ -1,18 +1,16 @@
 ---
 
 - include: create_users_and_groups.yml
+  tags: system
 
 - include: setup_git_repo.yml
-  tags: deploy
+  tags: git
 
 - include: set_file_permissions.yml
-  tags: deploy
+  tags: system
 
-- include: express.yml
-  tags: deploy
-  
 - include: nginx.yml
   tags: nginx
 
 - include: pm2.yml
-  tags: deploy
+  tags: pm2

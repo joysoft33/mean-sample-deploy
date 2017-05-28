@@ -1,14 +1,16 @@
 ---
 
-- name: stop application
-  command: pm2 delete all
-  ignore_errors: yes
-  become: yes
+# - name: stop application
+#   command: pm2 kill
+#   ignore_errors: yes
       
-- name: start application
-  command: pm2 start {{ app_path }}/{{ pm2_file }}
-  ignore_errors: yes
-  become: yes
+# - name: start application
+#   command: pm2 start {{ app_entry }}
+#   environment:
+#     PORT: '{{ node_port }}'
+#     NODE_ENV: 'production'
+#     ignore_errors: yes
 
-- name: restart nginx
-  service: name=nginx state=restarted
+# - name: restart nginx
+#   service: name=nginx state=restarted
+#   become: yes

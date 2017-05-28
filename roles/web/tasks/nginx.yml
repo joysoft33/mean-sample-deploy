@@ -1,16 +1,17 @@
 ---
 
-- name: Nginx | Install nginx
-  apt: pkg=nginx
-  become: yes
-  tags: nginx
+- block:
 
-- name: Nginx | Setup reverse proxy
-  become: yes
-  template: src=nginx_site_config.j2 dest=/etc/nginx/sites-available/default
-  tags: nginx
+  - name: Nginx | Install service
+    apt: pkg=nginx
 
-- name: Nginx | Start nginx
-  service: name=nginx state=restarted
+  - name: Nginx | Setup reverse proxy
+    template: src=nginx_site_config.j2
+              dest=/etc/nginx/sites-available/default
+              owner={{ nodeapp_user }}
+              group={{ nodeapp_group }}
+
+  - name: Nginx | Start service
+    service: name=nginx state=restarted
+
   become: yes
-  tags: nginx
